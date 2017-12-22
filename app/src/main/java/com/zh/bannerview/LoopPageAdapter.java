@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.zh.bannerview.view.SuperHolder;
 
 import java.util.List;
 
@@ -20,14 +21,16 @@ import java.util.List;
  * <p>更新者       $Author$</p>
  * <p>更新时间     $Date$</p>
  */
-public class LoopPageAdapter extends PagerAdapter {
+public class LoopPageAdapter<T> extends PagerAdapter {
 
     private Context context;
-    private List viewDataList;
+    private List<T> viewDataList;
+    private SuperHolder mSuperHolder;
 
-    public  LoopPageAdapter(Context context, List viewDataList) {
+    public LoopPageAdapter(Context context, List<T> viewDataList, SuperHolder mSuperHolder) {
         this.context = context;
         this.viewDataList = viewDataList;
+        this.mSuperHolder = mSuperHolder;
     }
 
     @Override
@@ -42,7 +45,8 @@ public class LoopPageAdapter extends PagerAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
-        View view = LoopView(position);
+        View view = mSuperHolder.createView(context);
+        mSuperHolder.onBind(context,position,viewDataList);
         container.addView(view);
         return view;
     }
@@ -50,13 +54,5 @@ public class LoopPageAdapter extends PagerAdapter {
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
         container.removeView((View) object);
-    }
-
-
-    private View LoopView(int position) {
-        View view = LayoutInflater.from(context).inflate(R.layout.vp_item, null);
-        ImageView iv_item = view.findViewById(R.id.iv_item);
-        Glide.with(context).load(viewDataList.get(position)).into(iv_item);
-        return view;
     }
 }

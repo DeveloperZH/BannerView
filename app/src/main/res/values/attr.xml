@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="SuperBannerView">
+        <attr name="openSuperMode" format="boolean" />
+        <attr name="sideAlpha" format="float" />
+        <attr name="indicatorAlign" format="enum">
+            <enum name="left" value="0"/>
+            <enum name="right" value="1"/>
+            <enum name="center" value="2"/>
+        </attr>
+    </declare-styleable>
+</resources>

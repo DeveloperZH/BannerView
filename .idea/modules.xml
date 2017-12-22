@@ -3,7 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/BannerView.iml" filepath="$PROJECT_DIR$/BannerView.iml" />
+      <module fileurl="file://E:\MyProject\BannerView\BannerView.iml" filepath="E:\MyProject\BannerView\BannerView.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://E:\MyProject\BannerView\app\app.iml" filepath="E:\MyProject\BannerView\app\app.iml" />
     </modules>
   </component>
 </project>

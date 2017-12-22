@@ -9,6 +9,7 @@
     <com.zh.bannerview.view.SuperBannerView
         android:id="@+id/mSuperBannerView"
         android:layout_width="match_parent"
+        app:openSuperMode="true"
         android:layout_height="200dp" />
 
 </android.support.constraint.ConstraintLayout>
