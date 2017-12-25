@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
         mSuperBannerView.setOpenSuperMode(0, 0);
 //        mSuperBannerView.setSideAlpha(0.5f);
-        mSuperBannerView.setIndicatorAlign(SuperBannerView.IndicatorAlign.RIGHT);
+//        mSuperBannerView.setIndicatorAlign(SuperBannerView.IndicatorAlign.CENTER);
 
         mSuperBannerView.setViewData(bannerUrlList, new SuperHolder() {
             @Override

@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.zh.bannerview.LoopPageAdapter;
@@ -41,13 +42,20 @@ public class SuperBannerView extends RelativeLayout {
     private Context context;
     private boolean isOpenSuperMode = true;  //是否开启super模式  默认不开启
     private float sideAlpha = 0.5f; //当开启super模式的时候  两边图片的透明度   默认0.5
-    private IndicatorAlign mIndicatorAlign = IndicatorAlign.CENTER;  //指示器的位置  默认居中
-    private List<View> indicatorViewList;
+    private IndicatorAlign mIndicatorAlign;  //指示器的位置
+    private IndicatorType mIndicatorType;  //指示器类型
+
+    private List<TextView> indicatorViewList;
 
     public enum IndicatorAlign {
-        LEFT,
+        LEFT,//左对齐
         CENTER,//居中对齐
         RIGHT //右对齐
+    }
+
+    public enum IndicatorType {
+        NUMBER,  //数字
+        CIRCLE  //圆圈
     }
 
 
@@ -64,7 +72,20 @@ public class SuperBannerView extends RelativeLayout {
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.SuperBannerView);
         isOpenSuperMode = typedArray.getBoolean(R.styleable.SuperBannerView_openSuperMode, false);
         sideAlpha = typedArray.getFloat(R.styleable.SuperBannerView_sideAlpha, 0.5f);
-//        mIndicatorAlign = typedArray.getInt(R.styleable.SuperBannerView_indicatorAlign,0);
+        int align = typedArray.getInt(R.styleable.SuperBannerView_indicatorAlign, 0);
+        if (align == 0) {  //center
+            mIndicatorAlign = IndicatorAlign.CENTER;
+        } else if (align == 1) {//right
+            mIndicatorAlign = IndicatorAlign.RIGHT;
+        } else if (align == 2) { //left
+            mIndicatorAlign = IndicatorAlign.LEFT;
+        }
+        int indicatorType = typedArray.getInt(R.styleable.SuperBannerView_indicatorType, 0);
+        if (indicatorType == 0) {
+            mIndicatorType = IndicatorType.CIRCLE;
+        } else if (indicatorType == 1) {
+            mIndicatorType = IndicatorType.NUMBER;
+        }
         initView(context);
     }
 
@@ -89,16 +110,31 @@ public class SuperBannerView extends RelativeLayout {
         mLoopViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-//                if (mLoopViewPager.getCurrentItem() == ll_container.getChildAt())
+                if (indicatorViewList != null && indicatorViewList.size() > 0) {
+                    for (int i = 0; i < indicatorViewList.size(); i++) {
+                        switch (mIndicatorType) {
+                            case CIRCLE:
+                                if (i == mLoopViewPager.getCurrentItem()) {
+                                    indicatorViewList.get(i).setBackgroundColor(context.getResources().getColor(R.color.colorAccent));
+                                } else {
+                                    indicatorViewList.get(i).setBackgroundColor(context.getResources().getColor(R.color.colorPrimary));
+                                }
+                                break;
+                            case NUMBER:
+                                if (i == mLoopViewPager.getCurrentItem()) {
+                                    indicatorViewList.get(i).setBackgroundColor(context.getResources().getColor(R.color.colorAccent));
+                                } else {
+                                    indicatorViewList.get(i).setBackgroundColor(context.getResources().getColor(R.color.colorPrimary));
+                                }
+                                break;
+                        }
+                    }
+                }
             }
 
             @Override
             public void onPageSelected(int position) {
                 //这里参数中的position 并不是真正的position
-                Toast.makeText(context, "" + mLoopViewPager.getCurrentItem(), Toast.LENGTH_SHORT).show();
-                if (indicatorViewList != null && indicatorViewList.size() >0){
-                    indicatorViewList.get(mLoopViewPager.getCurrentItem()).setBackground(getResources().getDrawable(R.drawable.indicator_selected));
-                }
             }
 
             @Override
@@ -111,23 +147,50 @@ public class SuperBannerView extends RelativeLayout {
     //初始化指示器
     private void initIndicator(List list) {
         for (int i = 0; i < list.size(); i++) {
-            View view = new View(context);
-            view.setBackgroundResource(R.drawable.indicator_normal);
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(20, 20);
-            params.rightMargin = 20;
-            switch (mIndicatorAlign) {
-                case LEFT:
-                    ll_container.setGravity(Gravity.LEFT);
+            switch (mIndicatorType) {
+                case NUMBER:
+                    TextView number_view = new TextView(context);
+                    number_view.setTextSize(10);
+                    number_view.setGravity(Gravity.CENTER);
+                    number_view.setText(String.valueOf(i + 1));
+                    number_view.setBackgroundColor(context.getResources().getColor(R.color.colorPrimary));
+                    LinearLayout.LayoutParams numberParams = new LinearLayout.LayoutParams(40, 40);
+                    numberParams.rightMargin = 20;
+                    switch (mIndicatorAlign) {
+                        case LEFT:
+                            ll_container.setGravity(Gravity.LEFT);
+                            break;
+                        case RIGHT:
+                            ll_container.setGravity(Gravity.RIGHT);
+                            break;
+                        case CENTER:
+                            ll_container.setGravity(Gravity.CENTER);
+                            break;
+                    }
+                    ll_container.addView(number_view, numberParams);
+                    indicatorViewList.add(number_view);
                     break;
-                case RIGHT:
-                    ll_container.setGravity(Gravity.RIGHT);
-                    break;
-                case CENTER:
-                    ll_container.setGravity(Gravity.CENTER);
+                case CIRCLE:
+//                    indicatorViewList.clear();
+                    TextView view = new TextView(context);
+                    view.setBackgroundColor(context.getResources().getColor(R.color.colorPrimary));
+                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(20, 20);
+                    params.rightMargin = 20;
+                    switch (mIndicatorAlign) {
+                        case LEFT:
+                            ll_container.setGravity(Gravity.LEFT);
+                            break;
+                        case RIGHT:
+                            ll_container.setGravity(Gravity.RIGHT);
+                            break;
+                        case CENTER:
+                            ll_container.setGravity(Gravity.CENTER);
+                            break;
+                    }
+                    ll_container.addView(view, params);
+                    indicatorViewList.add(view);
                     break;
             }
-            ll_container.addView(view, params);
-            indicatorViewList.add(view);
         }
     }
 
@@ -171,6 +234,14 @@ public class SuperBannerView extends RelativeLayout {
     public void setIndicatorAlign(IndicatorAlign mIndicatorAlign) {
         this.mIndicatorAlign = mIndicatorAlign;
     }
+
+    /**
+     * 设置指示器的类型
+     */
+    public void setIndicatorType(IndicatorType mIndicatorType) {
+        this.mIndicatorType = mIndicatorType;
+    }
+
 
     /**
      * 开启轮播
