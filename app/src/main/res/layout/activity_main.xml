@@ -13,7 +13,8 @@
         app:indicatorAlign="center"
         app:indicatorType="number"
         app:circleOrTextSize="15"
+        app:sideAlpha="0.9"
+        app:showIndicator = "true"
         app:openLoop="true"
         app:openSuperMode="true" />
-
 </android.support.constraint.ConstraintLayout>

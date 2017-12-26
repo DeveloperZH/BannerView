@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        mSuperBannerView.setOpenSuperMode(30, 10);
+        mSuperBannerView.setOpenSuperMode(30, 20);
 
     }
 }

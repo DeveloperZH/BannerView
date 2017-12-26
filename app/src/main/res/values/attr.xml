@@ -16,5 +16,7 @@
         <attr name="circleOrTextSize" format="integer" />
         <attr name="normalColor" format="integer" />
         <attr name="selectColor" format="integer" />
+        <attr name="millisecond" format="integer"/>
+        <attr name="showIndicator" format="boolean"/>
     </declare-styleable>
 </resources>

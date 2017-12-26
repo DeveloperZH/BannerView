@@ -10,7 +10,7 @@ import android.view.View;
 
 public class CoverModeTransformer implements ViewPager.PageTransformer {
 
-    private  final String TAG = CoverModeTransformer.class.getCanonicalName();
+    private final String TAG = CoverModeTransformer.class.getCanonicalName();
     private float reduceX = 0.0f;
     private float itemWidth = 0;
     private float offsetPosition = 0f;
@@ -20,10 +20,11 @@ public class CoverModeTransformer implements ViewPager.PageTransformer {
     private ViewPager mViewPager;
 
     private static final float MIN_SCALE = 0.70f;
-    private static final float MIN_ALPHA = 0.5f;
+    private float MIN_ALPHA = 0.5f;
 
-    public CoverModeTransformer(ViewPager pager){
+    public CoverModeTransformer(ViewPager pager, float MIN_ALPHA) {
         mViewPager = pager;
+        this.MIN_ALPHA = MIN_ALPHA;
     }
 
     @Override
@@ -82,7 +83,6 @@ public class CoverModeTransformer implements ViewPager.PageTransformer {
             view.setScaleY(mScaleMin);
             view.setTranslationX(-reduceX - mCoverWidth);
         }
-
     }
 }
 

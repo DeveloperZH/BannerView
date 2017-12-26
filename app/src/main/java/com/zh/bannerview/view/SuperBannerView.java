@@ -37,7 +37,7 @@ public class SuperBannerView extends RelativeLayout {
 
     /********************UI******************************/
     private LinearLayout ll_container;
-    private LoopViewPager mLoopViewPager;
+    private ViewPager mLoopViewPager;
     /********************常量******************************/
     private Context context;
     private final int LOOP_TIME = 3000;  //轮播的时间
@@ -47,7 +47,9 @@ public class SuperBannerView extends RelativeLayout {
     private float sideAlpha = 0.5f; //当开启super模式的时候  两边图片的透明度   默认0.5
     private IndicatorAlign mIndicatorAlign;  //指示器的位置
     private IndicatorType mIndicatorType;  //指示器类型
+    private boolean showIndicator;  //是否显示指示器  默认显示
     private boolean openLoop; //是否开启轮播
+    private int millisecond;  //轮播时间
     private int circleOrTextSize;  //圆圈大小
     private int normalColor; //未选择颜色
     private int selectColor;  //选中颜色
@@ -112,6 +114,8 @@ public class SuperBannerView extends RelativeLayout {
         circleOrTextSize = typedArray.getInt(R.styleable.SuperBannerView_circleOrTextSize, 20);
         normalColor = typedArray.getInt(R.styleable.SuperBannerView_normalColor, R.color.colorPrimary);
         selectColor = typedArray.getInt(R.styleable.SuperBannerView_selectColor, R.color.colorAccent);
+        millisecond = typedArray.getInt(R.styleable.SuperBannerView_millisecond, LOOP_TIME);
+        showIndicator = typedArray.getBoolean(R.styleable.SuperBannerView_showIndicator, true);
         initView(context);
     }
 
@@ -261,7 +265,7 @@ public class SuperBannerView extends RelativeLayout {
             lp.rightMargin = dpToPx(sideMargin);
             mLoopViewPager.setLayoutParams(lp);
             mLoopViewPager.setPageMargin(dpToPx(pageMargin));
-            mLoopViewPager.setPageTransformer(true, new CoverModeTransformer(mLoopViewPager));
+            mLoopViewPager.setPageTransformer(true, new CoverModeTransformer(mLoopViewPager, sideAlpha));
         }
     }
 
@@ -270,10 +274,17 @@ public class SuperBannerView extends RelativeLayout {
      *
      * @param sideAlpha 取值范围 0~1
      */
-    // TODO: 2017/12/22   这里有问题 暂时不可用
     public void setSideAlpha(float sideAlpha) {
         this.sideAlpha = sideAlpha;
-//        mLoopViewPager.setPageTransformer(true, new CoverModeTransformer(mLoopViewPager));
+        mLoopViewPager.setPageTransformer(true, new CoverModeTransformer(mLoopViewPager, sideAlpha));
+    }
+
+
+    /**
+     * 设置是否显示指示器
+     */
+    public void showIndicator(boolean showIndicator) {
+        this.showIndicator = showIndicator;
     }
 
     /**
@@ -314,7 +325,7 @@ public class SuperBannerView extends RelativeLayout {
      */
     public void startLoop() {
         mHandler.removeMessages(LOOP_HANDLER);
-        mHandler.sendEmptyMessageDelayed(LOOP_HANDLER, LOOP_TIME);
+        mHandler.sendEmptyMessageDelayed(LOOP_HANDLER, millisecond);
     }
 
     /**
@@ -322,6 +333,16 @@ public class SuperBannerView extends RelativeLayout {
      */
     public void stopLoop() {
         mHandler.removeMessages(LOOP_HANDLER);
+    }
+
+
+    /**
+     * 设置轮播时间
+     *
+     * @param millisecond 单位 毫秒
+     */
+    public void setLoopTime(int millisecond) {
+        this.millisecond = millisecond;
     }
 
     /**
@@ -333,7 +354,9 @@ public class SuperBannerView extends RelativeLayout {
         }
         this.viewDataList = viewDataList;
         mLoopViewPager.setAdapter(new LoopPageAdapter(context, viewDataList, superHolder));
-        initIndicator(viewDataList);
+        if (showIndicator) {
+            initIndicator(viewDataList);
+        }
         if (openLoop) {
             startLoop();
         }
@@ -344,8 +367,8 @@ public class SuperBannerView extends RelativeLayout {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, Resources.getSystem().getDisplayMetrics());
     }
 
-    public static float dpToSp(int dp){
-        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP,dp,Resources.getSystem().getDisplayMetrics());
+    public static float dpToSp(int dp) {
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, dp, Resources.getSystem().getDisplayMetrics());
     }
 
 }
