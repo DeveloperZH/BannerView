@@ -24,7 +24,6 @@ public class MainActivity extends AppCompatActivity {
     private SuperBannerView mSuperBannerView;
 
     private ImageView iv_item;
-    private TextView tv_position;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
         bannerUrlList.add("http://dair.images.blessi.cn/o_1c1co8mbs11br1135toa1ork22va.png");
         bannerUrlList.add("http://dair.images.blessi.cn/o_1c1cpkiv9146guukr3la635hra.png");
 
-        mSuperBannerView.setOpenSuperMode(0, 0);
 //        mSuperBannerView.setSideAlpha(0.5f);
 //        mSuperBannerView.setIndicatorAlign(SuperBannerView.IndicatorAlign.CENTER);
 
@@ -47,14 +45,12 @@ public class MainActivity extends AppCompatActivity {
             public View createView(Context context) {
                 View view = LayoutInflater.from(context).inflate(R.layout.vp_item, null);
                 iv_item = view.findViewById(R.id.iv_item);
-                tv_position = view.findViewById(R.id.tv_position);
                 return view;
             }
 
             @Override
             public void onBind(final Context context, final int position, Object data) {
                 Glide.with(context).load(bannerUrlList.get(position)).into(iv_item);
-                tv_position.setText("" + position);
                 iv_item.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -63,6 +59,8 @@ public class MainActivity extends AppCompatActivity {
                 });
             }
         });
+
+        mSuperBannerView.setOpenSuperMode(30, 10);
 
     }
 }

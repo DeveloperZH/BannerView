@@ -12,5 +12,9 @@
             <enum name="circle" value="0" />
             <enum name="number" value="1" />
         </attr>
+        <attr name="openLoop" format="boolean" />
+        <attr name="circleOrTextSize" format="integer" />
+        <attr name="normalColor" format="integer" />
+        <attr name="selectColor" format="integer" />
     </declare-styleable>
 </resources>

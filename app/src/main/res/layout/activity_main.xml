@@ -12,6 +12,8 @@
         android:layout_height="200dp"
         app:indicatorAlign="center"
         app:indicatorType="number"
+        app:circleOrTextSize="15"
+        app:openLoop="true"
         app:openSuperMode="true" />
 
 </android.support.constraint.ConstraintLayout>

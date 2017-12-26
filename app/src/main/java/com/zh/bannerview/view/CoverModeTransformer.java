@@ -1,6 +1,7 @@
 package com.zh.bannerview.view;
 
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 
 /**
@@ -9,6 +10,7 @@ import android.view.View;
 
 public class CoverModeTransformer implements ViewPager.PageTransformer {
 
+    private  final String TAG = CoverModeTransformer.class.getCanonicalName();
     private float reduceX = 0.0f;
     private float itemWidth = 0;
     private float offsetPosition = 0f;
@@ -18,7 +20,7 @@ public class CoverModeTransformer implements ViewPager.PageTransformer {
     private ViewPager mViewPager;
 
     private static final float MIN_SCALE = 0.70f;
-    private static final float MIN_ALPHA = 0.3f;
+    private static final float MIN_ALPHA = 0.5f;
 
     public CoverModeTransformer(ViewPager pager){
         mViewPager = pager;
@@ -43,6 +45,8 @@ public class CoverModeTransformer implements ViewPager.PageTransformer {
             }
             view.setAlpha(MIN_ALPHA + (scaleFactor - MIN_SCALE) / (1 - MIN_SCALE) * (1 - MIN_ALPHA));
         }
+
+
         if (offsetPosition == 0f) {
             float paddingLeft = mViewPager.getPaddingLeft();
             float paddingRight = mViewPager.getPaddingRight();
