@@ -1,22 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="SuperBannerView">
-        <attr name="openSuperMode" format="boolean" />
+        <attr name="openSuperMode" format="boolean" />  <!--是否开启super模式-->
         <attr name="sideAlpha" format="float" />
-        <attr name="indicatorAlign" format="enum">
+        <attr name="indicatorAlign" format="enum">  <!--指示器位置-->
             <enum name="left" value="2" />
             <enum name="right" value="1" />
             <enum name="center" value="0" />
         </attr>
-        <attr name="indicatorType" format="enum">
-            <enum name="circle" value="0" />
-            <enum name="number" value="1" />
-        </attr>
-        <attr name="openLoop" format="boolean" />
-        <attr name="circleOrTextSize" format="integer" />
-        <attr name="normalColor" format="integer" />
-        <attr name="selectColor" format="integer" />
-        <attr name="millisecond" format="integer"/>
-        <attr name="showIndicator" format="boolean"/>
+        <attr name="openLoop" format="boolean" />  <!--是否开启轮播-->
+        <attr name="millisecond" format="integer" />   <!--轮播间隔时间-->
+        <attr name="showIndicator" format="boolean" />  <!--是否显示指示器-->
+        <attr name="indicatorRadius" format="integer" />  <!--指示器的半径-->
+        <attr name="indicatorMargin" format="integer" />  <!--指示器的间隔-->
+        <attr name="bottomMargin" format="integer" />  <!--指示器距离底部距离-->
     </declare-styleable>
 </resources>

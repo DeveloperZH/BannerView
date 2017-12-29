@@ -37,9 +37,9 @@ public class MainActivity extends AppCompatActivity {
         bannerUrlList.add("http://dair.images.blessi.cn/o_1c1co8mbs11br1135toa1ork22va.png");
         bannerUrlList.add("http://dair.images.blessi.cn/o_1c1cpkiv9146guukr3la635hra.png");
 
-//        mSuperBannerView.setSideAlpha(0.5f);
-//        mSuperBannerView.setIndicatorAlign(SuperBannerView.IndicatorAlign.CENTER);
-
+        mSuperBannerView.setOpenSuperMode(true);
+        mSuperBannerView.setSuperModeMargin(30, 10);
+        mSuperBannerView.setCircleIndicatorDrawable(R.drawable.indicator_normal,R.drawable.draw1);
         mSuperBannerView.setViewData(bannerUrlList, new SuperHolder() {
             @Override
             public View createView(Context context) {
@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onBind(final Context context, final int position, Object data) {
-                Glide.with(context).load(bannerUrlList.get(position)).into(iv_item);
+                Glide.with(context).load(data).into(iv_item);
                 iv_item.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -59,8 +59,6 @@ public class MainActivity extends AppCompatActivity {
                 });
             }
         });
-
-        mSuperBannerView.setOpenSuperMode(30, 20);
 
     }
 }

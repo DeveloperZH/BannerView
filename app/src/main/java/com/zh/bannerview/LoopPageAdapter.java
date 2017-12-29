@@ -46,7 +46,7 @@ public class LoopPageAdapter<T> extends PagerAdapter {
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
         View view = mSuperHolder.createView(context);
-        mSuperHolder.onBind(context,position,viewDataList);
+        mSuperHolder.onBind(context,position,viewDataList.get(position));
         container.addView(view);
         return view;
     }

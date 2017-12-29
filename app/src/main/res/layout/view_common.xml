@@ -5,7 +5,7 @@
     android:layout_height="match_parent">
 
 
-    <android.support.v4.view.ViewPager
+    <com.zh.bannerview.view.LoopViewPager
         android:id="@+id/mLoopViewPager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
@@ -14,7 +14,6 @@
         android:id="@+id/ll_container"
         android:layout_width="match_parent"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="15dp"
         android:layout_height="wrap_content"/>
 
 </RelativeLayout>

@@ -6,6 +6,7 @@ import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.DrawableRes;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
@@ -14,6 +15,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -37,7 +39,7 @@ public class SuperBannerView extends RelativeLayout {
 
     /********************UI******************************/
     private LinearLayout ll_container;
-    private ViewPager mLoopViewPager;
+    private LoopViewPager mLoopViewPager;
     /********************常量******************************/
     private Context context;
     private final int LOOP_TIME = 3000;  //轮播的时间
@@ -46,13 +48,13 @@ public class SuperBannerView extends RelativeLayout {
     private boolean isOpenSuperMode = true;  //是否开启super模式  默认不开启
     private float sideAlpha = 0.5f; //当开启super模式的时候  两边图片的透明度   默认0.5
     private IndicatorAlign mIndicatorAlign;  //指示器的位置
-    private IndicatorType mIndicatorType;  //指示器类型
+    private int indicatorRadius;  //指示器的半径
+    private int indicatorMargin;  //指示器的间隔
+    private int bottomMargin;//指示器距离底部的间距
+    private int circleNormalDrawable, circleSelectDrawable;
     private boolean showIndicator;  //是否显示指示器  默认显示
     private boolean openLoop; //是否开启轮播
     private int millisecond;  //轮播时间
-    private int circleOrTextSize;  //圆圈大小
-    private int normalColor; //未选择颜色
-    private int selectColor;  //选中颜色
 
     private List<TextView> indicatorViewList;
 
@@ -60,11 +62,6 @@ public class SuperBannerView extends RelativeLayout {
         LEFT,//左对齐
         CENTER,//居中对齐
         RIGHT //右对齐
-    }
-
-    public enum IndicatorType {
-        NUMBER,  //数字
-        CIRCLE  //圆圈
     }
 
     //轮播的Handler
@@ -104,18 +101,14 @@ public class SuperBannerView extends RelativeLayout {
         } else if (align == 2) { //left
             mIndicatorAlign = IndicatorAlign.LEFT;
         }
-        int indicatorType = typedArray.getInt(R.styleable.SuperBannerView_indicatorType, 0);
-        if (indicatorType == 0) {
-            mIndicatorType = IndicatorType.CIRCLE;
-        } else if (indicatorType == 1) {
-            mIndicatorType = IndicatorType.NUMBER;
-        }
         openLoop = typedArray.getBoolean(R.styleable.SuperBannerView_openLoop, true);
-        circleOrTextSize = typedArray.getInt(R.styleable.SuperBannerView_circleOrTextSize, 20);
-        normalColor = typedArray.getInt(R.styleable.SuperBannerView_normalColor, R.color.colorPrimary);
-        selectColor = typedArray.getInt(R.styleable.SuperBannerView_selectColor, R.color.colorAccent);
         millisecond = typedArray.getInt(R.styleable.SuperBannerView_millisecond, LOOP_TIME);
         showIndicator = typedArray.getBoolean(R.styleable.SuperBannerView_showIndicator, true);
+        indicatorRadius = typedArray.getInt(R.styleable.SuperBannerView_indicatorRadius, 20);
+        indicatorMargin = typedArray.getInt(R.styleable.SuperBannerView_indicatorMargin, 20);
+        bottomMargin = typedArray.getInt(R.styleable.SuperBannerView_bottomMargin, 20);
+        typedArray.recycle();
+
         initView(context);
     }
 
@@ -143,21 +136,10 @@ public class SuperBannerView extends RelativeLayout {
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 if (indicatorViewList != null && indicatorViewList.size() > 0) {
                     for (int i = 0; i < indicatorViewList.size(); i++) {
-                        switch (mIndicatorType) {
-                            case CIRCLE:
-                                if (i == mLoopViewPager.getCurrentItem()) {
-                                    indicatorViewList.get(i).setBackgroundColor(getResources().getColor(selectColor));
-                                } else {
-                                    indicatorViewList.get(i).setBackgroundColor(getResources().getColor(normalColor));
-                                }
-                                break;
-                            case NUMBER:
-                                if (i == mLoopViewPager.getCurrentItem()) {
-                                    indicatorViewList.get(i).setTextColor(getResources().getColor(selectColor));
-                                } else {
-                                    indicatorViewList.get(i).setTextColor(getResources().getColor(normalColor));
-                                }
-                                break;
+                        if (i == mLoopViewPager.getCurrentItem()) {
+                            indicatorViewList.get(i).setBackgroundResource(circleSelectDrawable);
+                        } else {
+                            indicatorViewList.get(i).setBackgroundResource(circleNormalDrawable);
                         }
                     }
                 }
@@ -199,50 +181,33 @@ public class SuperBannerView extends RelativeLayout {
 
     //初始化指示器
     private void initIndicator(List list) {
+        //设置指示器距离底部间距
+        RelativeLayout.LayoutParams layoutParams = (LayoutParams) ll_container.getLayoutParams();
+        layoutParams.bottomMargin = dpToPx(bottomMargin);
+
+
         for (int i = 0; i < list.size(); i++) {
-            switch (mIndicatorType) {
-                case NUMBER:
-                    TextView number_view = new TextView(context);
-                    number_view.setTextSize(circleOrTextSize);
-                    number_view.setGravity(Gravity.CENTER);
-                    number_view.setText(String.valueOf(i + 1));
-                    LinearLayout.LayoutParams numberParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                    numberParams.rightMargin = 20;
-                    switch (mIndicatorAlign) {
-                        case LEFT:
-                            ll_container.setGravity(Gravity.LEFT);
-                            break;
-                        case RIGHT:
-                            ll_container.setGravity(Gravity.RIGHT);
-                            break;
-                        case CENTER:
-                            ll_container.setGravity(Gravity.CENTER);
-                            break;
-                    }
-                    ll_container.addView(number_view, numberParams);
-                    indicatorViewList.add(number_view);
+            //                    indicatorViewList.clear();
+            TextView view = new TextView(context);
+            view.setBackgroundResource(circleNormalDrawable);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(dpToPx(indicatorRadius), dpToPx(indicatorRadius));
+            params.rightMargin = dpToPx(indicatorMargin);
+            switch (mIndicatorAlign) {
+                case LEFT:
+                    ll_container.setGravity(Gravity.LEFT);
+                    layoutParams.leftMargin = 50;
                     break;
-                case CIRCLE:
-//                    indicatorViewList.clear();
-                    TextView view = new TextView(context);
-                    view.setBackgroundColor(getResources().getColor(normalColor));
-                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(dpToPx(circleOrTextSize), dpToPx(circleOrTextSize));
-                    params.rightMargin = 20;
-                    switch (mIndicatorAlign) {
-                        case LEFT:
-                            ll_container.setGravity(Gravity.LEFT);
-                            break;
-                        case RIGHT:
-                            ll_container.setGravity(Gravity.RIGHT);
-                            break;
-                        case CENTER:
-                            ll_container.setGravity(Gravity.CENTER);
-                            break;
-                    }
-                    ll_container.addView(view, params);
-                    indicatorViewList.add(view);
+                case RIGHT:
+                    ll_container.setGravity(Gravity.RIGHT);
+                    layoutParams.rightMargin = 50;
+                    break;
+                case CENTER:
+                    ll_container.setGravity(Gravity.CENTER);
                     break;
             }
+            ll_container.setLayoutParams(layoutParams);
+            ll_container.addView(view, params);
+            indicatorViewList.add(view);
         }
     }
 
@@ -252,14 +217,26 @@ public class SuperBannerView extends RelativeLayout {
      ****************************************************/
 
 
+    public void setOpenSuperMode(boolean openSuperMode) {
+        this.isOpenSuperMode = openSuperMode;
+    }
+
     /**
      * 是否开启多屏模式   只有  openSuperMode 为true的时候有作用
      *
      * @param sideMargin 开启super模式的时候  中间图片到屏幕两边的距离
-     * @param pageMargin 开启super模式的时候  中间图片到两边两张图片的距离  可为0 可为负数
+     * @param pageMargin 开启super模式的时候  中间图片到两边两张图片的距离  当小于0的时候 有bug
      */
-    public void setOpenSuperMode(int sideMargin, int pageMargin) {
+    public void setSuperModeMargin(int sideMargin, int pageMargin) {
         if (isOpenSuperMode) {
+            if (pageMargin <= 0) {
+                try {
+                    throw new Exception("pageMargin 要大于0");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return;
+            }
             RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) mLoopViewPager.getLayoutParams();
             lp.leftMargin = dpToPx(sideMargin);
             lp.rightMargin = dpToPx(sideMargin);
@@ -270,8 +247,8 @@ public class SuperBannerView extends RelativeLayout {
     }
 
     /**
-     * 设置两边图片的透明度
-     *
+     * 设置两边图片的透明度  以及两边图片的高度比例
+     *@hide
      * @param sideAlpha 取值范围 0~1
      */
     public void setSideAlpha(float sideAlpha) {
@@ -295,19 +272,23 @@ public class SuperBannerView extends RelativeLayout {
     }
 
     /**
-     * 设置指示器的类型
+     * 设置圆形指示器的大小  间距
      */
-    public void setIndicatorType(IndicatorType mIndicatorType) {
-        this.mIndicatorType = mIndicatorType;
+    public void setmIndicatorInfo(int radius, int margin, int bottomMargin) {
+        this.indicatorRadius = radius;
+        this.indicatorMargin = margin;
+        this.bottomMargin = bottomMargin;
     }
 
     /**
-     * 当指示器为圆圈的时候 设置圆圈的大小  未选中颜色  选择颜色
+     * 设置指示器的Drawable
+     *
+     * @param circleNormalDrawable 未选中
+     * @param circleSelectDrawable 选中
      */
-    public void setCircleIndicator(int circleOrTextSize, int normalColor, int selectColor) {
-        this.circleOrTextSize = circleOrTextSize;
-        this.normalColor = normalColor;
-        this.selectColor = selectColor;
+    public void setCircleIndicatorDrawable(@DrawableRes int circleNormalDrawable, @DrawableRes int circleSelectDrawable) {
+        this.circleNormalDrawable = circleNormalDrawable;
+        this.circleSelectDrawable = circleSelectDrawable;
     }
 
 
