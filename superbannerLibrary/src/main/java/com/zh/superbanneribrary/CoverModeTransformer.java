@@ -1,7 +1,6 @@
-package com.zh.bannerview.view;
+package com.zh.superbanneribrary;
 
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.View;
 
 /**

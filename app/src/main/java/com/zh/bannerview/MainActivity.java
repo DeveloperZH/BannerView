@@ -6,12 +6,11 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.zh.bannerview.view.SuperBannerView;
-import com.zh.bannerview.view.SuperHolder;
+import com.zh.superbanneribrary.SuperBannerView;
+import com.zh.superbanneribrary.SuperHolder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         bannerUrlList.add("http://dair.images.blessi.cn/o_1c1cpkiv9146guukr3la635hra.png");
 
         mSuperBannerView.setOpenSuperMode(true);
-        mSuperBannerView.setSuperModeMargin(30, 10);
+        mSuperBannerView.setSuperModeMargin(30, -10);
         mSuperBannerView.setCircleIndicatorDrawable(R.drawable.indicator_normal,R.drawable.draw1);
         mSuperBannerView.setViewData(bannerUrlList, new SuperHolder() {
             @Override

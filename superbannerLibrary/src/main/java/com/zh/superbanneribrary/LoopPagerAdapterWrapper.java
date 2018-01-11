@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.zh.bannerview.view;
+package com.zh.superbanneribrary;
 
 import android.os.Parcelable;
 import android.support.v4.app.FragmentPagerAdapter;

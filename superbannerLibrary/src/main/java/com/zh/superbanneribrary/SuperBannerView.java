@@ -1,4 +1,4 @@
-package com.zh.bannerview.view;
+package com.zh.superbanneribrary;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -9,19 +9,15 @@ import android.os.Message;
 import android.support.annotation.DrawableRes;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
-import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.zh.bannerview.LoopPageAdapter;
-import com.zh.bannerview.R;
 
 import java.util.ArrayList;
 import java.util.List;

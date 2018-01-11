@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:clipChildren="false">
 
-    <com.zh.bannerview.view.LoopViewPager
+    <com.zh.superbanneribrary.LoopViewPager
         android:id="@+id/mLoopViewPager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

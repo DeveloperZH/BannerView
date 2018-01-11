@@ -6,11 +6,11 @@
     android:layout_height="match_parent"
     tools:context="com.zh.bannerview.MainActivity">
 
-    <com.zh.bannerview.view.SuperBannerView
+    <com.zh.superbanneribrary.SuperBannerView
         android:id="@+id/mSuperBannerView"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        app:indicatorAlign="left"
+        app:indicatorAlign="center"
         app:indicatorMargin="5"
         app:indicatorRadius="10"
         app:openLoop="true"

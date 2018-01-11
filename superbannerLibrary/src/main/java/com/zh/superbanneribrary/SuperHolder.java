@@ -1,4 +1,4 @@
-package com.zh.bannerview.view;
+package com.zh.superbanneribrary;
 
 import android.content.Context;
 import android.view.View;
