@@ -4,7 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/BannerView.iml" filepath="$PROJECT_DIR$/BannerView.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/superbannerLibrary/superbanneribrary.iml" filepath="$PROJECT_DIR$/superbannerLibrary/superbanneribrary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/superbannerLibrary/superbannerLibrary.iml" filepath="$PROJECT_DIR$/superbannerLibrary/superbannerLibrary.iml" />
     </modules>
   </component>
 </project>
