@@ -34,12 +34,14 @@ public class MainActivity extends AppCompatActivity {
         bannerUrlList.add("http://dair.images.blessi.cn/o_1c1cpkiv9146guukr3la635hra.png");
         bannerUrlList.add("http://dair.images.blessi.cn/o_1c1co86b1g63obi1mr2is51235a.png");
         bannerUrlList.add("http://dair.images.blessi.cn/o_1c1co8mbs11br1135toa1ork22va.png");
-        bannerUrlList.add("http://dair.images.blessi.cn/o_1c1cpkiv9146guukr3la635hra.png");
 
         mSuperBannerView.setOpenSuperMode(true);
-        mSuperBannerView.setSuperModeMargin(30, -10);
-        mSuperBannerView.setCircleIndicatorDrawable(R.drawable.indicator_normal,R.drawable.draw1);
-        mSuperBannerView.setViewData(bannerUrlList, new SuperHolder() {
+        mSuperBannerView.showIndicator(true);
+        mSuperBannerView.setSuperModeMargin(30, 20);
+        mSuperBannerView.setIndicatorAlign(SuperBannerView.IndicatorAlign.CENTER);
+        mSuperBannerView.setCircleIndicatorDrawable(R.drawable.indicator_normal, R.drawable.draw1);
+
+        mSuperBannerView.setViewData(bannerUrlList, new SuperHolder<String>() {
             @Override
             public View createView(Context context) {
                 View view = LayoutInflater.from(context).inflate(R.layout.vp_item, null);
@@ -48,12 +50,12 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onBind(final Context context, final int position, Object data) {
+            public void onBind(final Context context, final int position, final String data) {
                 Glide.with(context).load(data).into(iv_item);
                 iv_item.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Toast.makeText(context,"position = " + position,Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "position = " + position + data, Toast.LENGTH_SHORT).show();
                     }
                 });
             }

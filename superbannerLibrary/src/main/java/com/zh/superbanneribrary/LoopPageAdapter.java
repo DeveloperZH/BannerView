@@ -22,9 +22,9 @@ public class LoopPageAdapter<T> extends PagerAdapter {
 
     private Context context;
     private List<T> viewDataList;
-    private SuperHolder mSuperHolder;
+    private SuperHolder<T> mSuperHolder;
 
-    public LoopPageAdapter(Context context, List<T> viewDataList, SuperHolder mSuperHolder) {
+    public LoopPageAdapter(Context context, List<T> viewDataList, SuperHolder<T> mSuperHolder) {
         this.context = context;
         this.viewDataList = viewDataList;
         this.mSuperHolder = mSuperHolder;
@@ -43,7 +43,7 @@ public class LoopPageAdapter<T> extends PagerAdapter {
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
         View view = mSuperHolder.createView(context);
-        mSuperHolder.onBind(context,position,viewDataList.get(position));
+        mSuperHolder.onBind(context,position, viewDataList.get(position));
         container.addView(view);
         return view;
     }

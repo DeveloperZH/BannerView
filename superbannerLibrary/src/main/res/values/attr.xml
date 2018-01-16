@@ -14,5 +14,6 @@
         <attr name="indicatorRadius" format="integer" />  <!--指示器的半径-->
         <attr name="indicatorMargin" format="integer" />  <!--指示器的间隔-->
         <attr name="bottomMargin" format="integer" />  <!--指示器距离底部距离-->
+        <attr name="indicatorMarginSide" format="integer"/> <!--当指示器位置为right或者left的时候 距离屏幕的边距-->
     </declare-styleable>
 </resources>

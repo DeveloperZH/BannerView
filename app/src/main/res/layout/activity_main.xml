@@ -10,11 +10,5 @@
         android:id="@+id/mSuperBannerView"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        app:indicatorAlign="center"
-        app:indicatorMargin="5"
-        app:indicatorRadius="10"
-        app:openLoop="true"
-        app:bottomMargin = "20"
-        app:openSuperMode="true"
-        app:showIndicator="true" />
+         />
 </android.support.constraint.ConstraintLayout>

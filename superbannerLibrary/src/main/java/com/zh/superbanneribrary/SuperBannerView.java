@@ -36,18 +36,21 @@ public class SuperBannerView extends RelativeLayout {
     /********************UI******************************/
     private LinearLayout ll_container;
     private LoopViewPager mLoopViewPager;
+    private RelativeLayout rl_parent;
     /********************常量******************************/
     private Context context;
     private final int LOOP_TIME = 3000;  //轮播的时间
     private final int LOOP_HANDLER = 100001;
     private List viewDataList;
-    private boolean isOpenSuperMode = true;  //是否开启super模式  默认不开启
+    private boolean isOpenSuperMode;  //是否开启super模式  默认开启
     private float sideAlpha = 0.5f; //当开启super模式的时候  两边图片的透明度   默认0.5
     private IndicatorAlign mIndicatorAlign;  //指示器的位置
     private int indicatorRadius;  //指示器的半径
     private int indicatorMargin;  //指示器的间隔
+    private int indicatorMarginSide;  //当指示器位置为right或者left的时候 距离屏幕的边距
     private int bottomMargin;//指示器距离底部的间距
-    private int circleNormalDrawable, circleSelectDrawable;
+    private int circleNormalDrawable = R.drawable.indicator_normal;
+    private int circleSelectDrawable = R.drawable.indicator_selected;
     private boolean showIndicator;  //是否显示指示器  默认显示
     private boolean openLoop; //是否开启轮播
     private int millisecond;  //轮播时间
@@ -87,7 +90,7 @@ public class SuperBannerView extends RelativeLayout {
     public SuperBannerView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.SuperBannerView);
-        isOpenSuperMode = typedArray.getBoolean(R.styleable.SuperBannerView_openSuperMode, false);
+        isOpenSuperMode = typedArray.getBoolean(R.styleable.SuperBannerView_openSuperMode, true);
         sideAlpha = typedArray.getFloat(R.styleable.SuperBannerView_sideAlpha, 0.5f);
         int align = typedArray.getInt(R.styleable.SuperBannerView_indicatorAlign, 0);
         if (align == 0) {  //center
@@ -103,6 +106,7 @@ public class SuperBannerView extends RelativeLayout {
         indicatorRadius = typedArray.getInt(R.styleable.SuperBannerView_indicatorRadius, 20);
         indicatorMargin = typedArray.getInt(R.styleable.SuperBannerView_indicatorMargin, 20);
         bottomMargin = typedArray.getInt(R.styleable.SuperBannerView_bottomMargin, 20);
+        indicatorMarginSide = typedArray.getInt(R.styleable.SuperBannerView_indicatorMarginSide, 20);
         typedArray.recycle();
 
         initView(context);
@@ -122,6 +126,7 @@ public class SuperBannerView extends RelativeLayout {
         mLoopViewPager = view.findViewById(R.id.mLoopViewPager);
         mLoopViewPager.setOffscreenPageLimit(4);
         ll_container = view.findViewById(R.id.ll_container);
+        rl_parent = view.findViewById(R.id.rl_parent);
         bindEvent();
     }
 
@@ -152,7 +157,6 @@ public class SuperBannerView extends RelativeLayout {
             }
         });
 
-
         mLoopViewPager.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -173,6 +177,14 @@ public class SuperBannerView extends RelativeLayout {
                 return false;
             }
         });
+
+        //当为super模式的时候  使其触摸两边的view也能触发事件
+        rl_parent.setOnTouchListener(new OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return mLoopViewPager.dispatchTouchEvent(event);
+            }
+        });
     }
 
     //初始化指示器
@@ -186,16 +198,16 @@ public class SuperBannerView extends RelativeLayout {
             //                    indicatorViewList.clear();
             TextView view = new TextView(context);
             view.setBackgroundResource(circleNormalDrawable);
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(dpToPx(indicatorRadius), dpToPx(indicatorRadius));
-            params.rightMargin = dpToPx(indicatorMargin);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(indicatorRadius, indicatorRadius);
+            params.rightMargin = indicatorMargin;
             switch (mIndicatorAlign) {
                 case LEFT:
                     ll_container.setGravity(Gravity.LEFT);
-                    layoutParams.leftMargin = 50;
+                    layoutParams.leftMargin = indicatorMarginSide;
                     break;
                 case RIGHT:
                     ll_container.setGravity(Gravity.RIGHT);
-                    layoutParams.rightMargin = 50;
+                    layoutParams.rightMargin = indicatorMarginSide;
                     break;
                 case CENTER:
                     ll_container.setGravity(Gravity.CENTER);
@@ -244,8 +256,9 @@ public class SuperBannerView extends RelativeLayout {
 
     /**
      * 设置两边图片的透明度  以及两边图片的高度比例
-     *@hide
+     *
      * @param sideAlpha 取值范围 0~1
+     * @hide
      */
     public void setSideAlpha(float sideAlpha) {
         this.sideAlpha = sideAlpha;
@@ -260,11 +273,21 @@ public class SuperBannerView extends RelativeLayout {
         this.showIndicator = showIndicator;
     }
 
+
     /**
      * 设置指示器的位置
      */
     public void setIndicatorAlign(IndicatorAlign mIndicatorAlign) {
         this.mIndicatorAlign = mIndicatorAlign;
+    }
+
+
+    /**
+     * 当指示器位置为right或者left的时候 距离屏幕的边距
+     * 当IndicatorAlign为center时  该方法无效
+     */
+    public void setIndicatorMarginSide(int indicatorMarginSide) {
+        this.indicatorMarginSide = indicatorMarginSide;
     }
 
     /**
@@ -325,7 +348,7 @@ public class SuperBannerView extends RelativeLayout {
     /**
      * 设置数据
      */
-    public <T> void setViewData(List<T> viewDataList, SuperHolder superHolder) {
+    public <T> void setViewData(List<T> viewDataList, SuperHolder<T> superHolder) {
         if (null == viewDataList || viewDataList.size() == 0) {
             throw new NullPointerException("viewDataList is NULL");
         }
