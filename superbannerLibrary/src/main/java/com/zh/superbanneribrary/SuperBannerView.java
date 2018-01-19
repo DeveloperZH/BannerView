@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.DrawableRes;
@@ -14,6 +15,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -37,6 +39,7 @@ public class SuperBannerView extends RelativeLayout {
     private LinearLayout ll_container;
     private LoopViewPager mLoopViewPager;
     private RelativeLayout rl_parent;
+    private ViewGroup mViewGroup;
     /********************常量******************************/
     private Context context;
     private final int LOOP_TIME = 3000;  //轮播的时间
@@ -124,9 +127,10 @@ public class SuperBannerView extends RelativeLayout {
             view = LayoutInflater.from(getContext()).inflate(R.layout.view_common, this, true);
         }
         mLoopViewPager = view.findViewById(R.id.mLoopViewPager);
-        mLoopViewPager.setOffscreenPageLimit(4);
+        mLoopViewPager.setOffscreenPageLimit(5);
         ll_container = view.findViewById(R.id.ll_container);
         rl_parent = view.findViewById(R.id.rl_parent);
+
         bindEvent();
     }
 
@@ -187,6 +191,7 @@ public class SuperBannerView extends RelativeLayout {
         });
     }
 
+
     //初始化指示器
     private void initIndicator(List list) {
         //设置指示器距离底部间距
@@ -233,18 +238,10 @@ public class SuperBannerView extends RelativeLayout {
      * 是否开启多屏模式   只有  openSuperMode 为true的时候有作用
      *
      * @param sideMargin 开启super模式的时候  中间图片到屏幕两边的距离
-     * @param pageMargin 开启super模式的时候  中间图片到两边两张图片的距离  当小于0的时候 有bug
+     * @param pageMargin 开启super模式的时候  中间图片到两边两张图片的距离  可为负数
      */
     public void setSuperModeMargin(int sideMargin, int pageMargin) {
         if (isOpenSuperMode) {
-            if (pageMargin <= 0) {
-                try {
-                    throw new Exception("pageMargin 要大于0");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                return;
-            }
             RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) mLoopViewPager.getLayoutParams();
             lp.leftMargin = dpToPx(sideMargin);
             lp.rightMargin = dpToPx(sideMargin);
@@ -258,7 +255,6 @@ public class SuperBannerView extends RelativeLayout {
      * 设置两边图片的透明度  以及两边图片的高度比例
      *
      * @param sideAlpha 取值范围 0~1
-     * @hide
      */
     public void setSideAlpha(float sideAlpha) {
         this.sideAlpha = sideAlpha;

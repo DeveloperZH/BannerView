@@ -1,14 +1,17 @@
 package com.zh.bannerview;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.zh.superbanneribrary.SuperBannerView;
 import com.zh.superbanneribrary.SuperHolder;
 
@@ -20,15 +23,19 @@ public class MainActivity extends AppCompatActivity {
 
     private List<String> bannerUrlList;
 
-    private SuperBannerView mSuperBannerView;
+    private SuperBannerView mSuperBannerView,mSuperBannerView1,mSuperBannerView2;
 
     private ImageView iv_item;
+    private TextView tv_go_refresh;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mSuperBannerView = findViewById(R.id.mSuperBannerView);
+        mSuperBannerView1 = findViewById(R.id.mSuperBannerView1);
+        mSuperBannerView2 = findViewById(R.id.mSuperBannerView2);
+        tv_go_refresh = findViewById(R.id.tv_go_refresh);
 
         bannerUrlList = new ArrayList<>();
         bannerUrlList.add("http://dair.images.blessi.cn/o_1c1cpkiv9146guukr3la635hra.png");
@@ -51,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onBind(final Context context, final int position, final String data) {
-                Glide.with(context).load(data).into(iv_item);
+                Glide.with(context).load(data).diskCacheStrategy(DiskCacheStrategy.ALL).into(iv_item);
                 iv_item.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -61,5 +68,62 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+        mSuperBannerView1.setViewData(bannerUrlList, new SuperHolder<String>() {
+            @Override
+            public View createView(Context context) {
+                View view = LayoutInflater.from(context).inflate(R.layout.vp_item, null);
+                iv_item = view.findViewById(R.id.iv_item);
+                return view;
+            }
+
+            @Override
+            public void onBind(final Context context, final int position, final String data) {
+                Glide.with(context).load(data).diskCacheStrategy(DiskCacheStrategy.ALL).into(iv_item);
+                iv_item.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Toast.makeText(context, "position = " + position + data, Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+
+
+        mSuperBannerView2.setOpenSuperMode(true);
+        mSuperBannerView2.showIndicator(true);
+        mSuperBannerView2.setSuperModeMargin(30, -20);
+        mSuperBannerView2.setViewData(bannerUrlList, new SuperHolder<String>() {
+            @Override
+            public View createView(Context context) {
+                View view = LayoutInflater.from(context).inflate(R.layout.vp_item, null);
+                iv_item = view.findViewById(R.id.iv_item);
+                return view;
+            }
+
+            @Override
+            public void onBind(final Context context, final int position, final String data) {
+                Glide.with(context).load(data).diskCacheStrategy(DiskCacheStrategy.ALL).into(iv_item);
+                iv_item.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Toast.makeText(context, "position = " + position + data, Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+
+        bindClick();
+
+    }
+
+    private void bindClick() {
+        tv_go_refresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, RefreshActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }
