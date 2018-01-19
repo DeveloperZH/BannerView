@@ -2,7 +2,7 @@
 <resources>
     <declare-styleable name="SuperBannerView">
         <attr name="openSuperMode" format="boolean" />  <!--是否开启super模式-->
-        <attr name="sideAlpha" format="float" />
+        <attr name="sideAlpha" format="float" />  <!--super模式两边图片的透明度-->
         <attr name="indicatorAlign" format="enum">  <!--指示器位置-->
             <enum name="left" value="2" />
             <enum name="right" value="1" />
