@@ -26,7 +26,6 @@ public class MainActivity extends AppCompatActivity {
     private SuperBannerView mSuperBannerView,mSuperBannerView1,mSuperBannerView2;
 
     private ImageView iv_item;
-    private TextView tv_go_refresh;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +34,6 @@ public class MainActivity extends AppCompatActivity {
         mSuperBannerView = findViewById(R.id.mSuperBannerView);
         mSuperBannerView1 = findViewById(R.id.mSuperBannerView1);
         mSuperBannerView2 = findViewById(R.id.mSuperBannerView2);
-        tv_go_refresh = findViewById(R.id.tv_go_refresh);
 
         bannerUrlList = new ArrayList<>();
         bannerUrlList.add("http://dair.images.blessi.cn/o_1c1cpkiv9146guukr3la635hra.png");
@@ -112,18 +110,6 @@ public class MainActivity extends AppCompatActivity {
                 });
             }
         });
-
-        bindClick();
-
     }
 
-    private void bindClick() {
-        tv_go_refresh.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, RefreshActivity.class);
-                startActivity(intent);
-            }
-        });
-    }
 }
