@@ -25,6 +25,7 @@
         android:layout_height="100dp" />
 
     <TextView
+        android:visibility="gone"
         android:background="@color/colorAccent"
         android:id="@+id/tv_go_refresh"
         android:layout_width="match_parent"

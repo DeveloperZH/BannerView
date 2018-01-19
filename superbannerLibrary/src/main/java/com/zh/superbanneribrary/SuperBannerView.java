@@ -10,10 +10,12 @@ import android.os.Message;
 import android.support.annotation.DrawableRes;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
+import android.view.OrientationEventListener;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -40,6 +42,11 @@ public class SuperBannerView extends RelativeLayout {
     private LoopViewPager mLoopViewPager;
     private RelativeLayout rl_parent;
     private ViewGroup mViewGroup;
+    float startX = 0, startY = 0;
+    float endY;
+    float endX;
+    float distanceX;
+    float distanceY;
     /********************常量******************************/
     private Context context;
     private final int LOOP_TIME = 3000;  //轮播的时间
@@ -223,6 +230,38 @@ public class SuperBannerView extends RelativeLayout {
             indicatorViewList.add(view);
         }
     }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                // 记录手指按下的位置
+                startY = event.getY();
+                startX = event.getX();
+                break;
+            case MotionEvent.ACTION_MOVE:
+                // 获取当前手指位置
+                endY = event.getY();
+                endX = event.getX();
+                distanceX = Math.abs(endX - startX);
+                distanceY = Math.abs(endY - startY);
+//                // 如果X轴位移大于Y轴位移，那么将事件交给viewPager处理。
+                if (distanceX > distanceY) {
+//                    mLoopViewPager.setEnabled(true);
+                    return true;
+                }else {
+//                    mLoopViewPager.setEnabled(false);
+                    return false;
+                }
+//                break;
+            case MotionEvent.ACTION_UP:
+            case MotionEvent.ACTION_CANCEL:
+                break;
+        }
+        return false;
+    }
+
+
 
 
     /**************************
