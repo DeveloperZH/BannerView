@@ -29,6 +29,6 @@
  10 public void startLoop() /public void stopLoop()   //开始轮播/关闭轮播     
  11 public void setLoopTime(int millisecond)   //设置轮播间隔时间    
  
- ###扫描下面的二维码安装体验Demo
- ![](https://github.com/DeveloperZH/BannerView/blob/master/app/src/main/res/mipmap-xhdpi/layout_eg3.png)
+ ###扫描下面的二维码安装体验Demo     
+ ![](https://github.com/DeveloperZH/BannerView/blob/master/app/src/main/res/mipmap-xhdpi/layout_eg_3.png)
  
