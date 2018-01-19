@@ -87,7 +87,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
         mSuperBannerView2.setOpenSuperMode(true);
         mSuperBannerView2.showIndicator(true);
         mSuperBannerView2.setSuperModeMargin(30, -20);
@@ -98,7 +97,6 @@ public class MainActivity extends AppCompatActivity {
                 iv_item = view.findViewById(R.id.iv_item);
                 return view;
             }
-
             @Override
             public void onBind(final Context context, final int position, final String data) {
                 Glide.with(context).load(data).diskCacheStrategy(DiskCacheStrategy.ALL).into(iv_item);
