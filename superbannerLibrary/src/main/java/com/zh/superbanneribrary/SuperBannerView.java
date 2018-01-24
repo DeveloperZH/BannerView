@@ -291,7 +291,7 @@ public class SuperBannerView extends RelativeLayout {
     }
 
     /**
-     * 设置两边图片的透明度  以及两边图片的高度比例
+     * 设置两边图片的透明度
      *
      * @param sideAlpha 取值范围 0~1
      */
@@ -326,7 +326,7 @@ public class SuperBannerView extends RelativeLayout {
     }
 
     /**
-     * 设置圆形指示器的大小  间距
+     * 设置圆形指示器的大小  间距  到底部距离
      */
     public void setmIndicatorInfo(int radius, int margin, int bottomMargin) {
         this.indicatorRadius = radius;

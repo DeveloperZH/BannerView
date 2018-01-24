@@ -10,19 +10,19 @@
     <com.zh.superbanneribrary.SuperBannerView
         android:id="@+id/mSuperBannerView"
         android:layout_width="match_parent"
-        android:layout_height="100dp" />
+        android:layout_height="150dp" />
 
     <com.zh.superbanneribrary.SuperBannerView
         android:id="@+id/mSuperBannerView1"
         android:layout_marginTop="10dp"
         android:layout_width="match_parent"
-        android:layout_height="100dp" />
+        android:layout_height="150dp" />
 
     <com.zh.superbanneribrary.SuperBannerView
         android:id="@+id/mSuperBannerView2"
         android:layout_marginTop="10dp"
         android:layout_width="match_parent"
-        android:layout_height="100dp" />
+        android:layout_height="150dp" />
 
     <TextView
         android:visibility="gone"
