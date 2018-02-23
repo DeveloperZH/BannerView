@@ -12,6 +12,7 @@ public class CoverModeTransformer implements ViewPager.PageTransformer {
 
     public CoverModeTransformer(ViewPager pager, float MIN_ALPHA) {
         mViewPager = pager;
+        //最小的透明度定为0.5  太小两边基本看不见
         if (MIN_ALPHA < 0.5f) {
             MIN_ALPHA = 0.5f;
         }
