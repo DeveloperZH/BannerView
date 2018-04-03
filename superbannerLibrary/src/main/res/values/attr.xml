@@ -11,7 +11,8 @@
         <attr name="openLoop" format="boolean" />  <!--是否开启轮播-->
         <attr name="millisecond" format="integer" />   <!--轮播间隔时间-->
         <attr name="showIndicator" format="boolean" />  <!--是否显示指示器-->
-        <attr name="indicatorRadius" format="integer" />  <!--指示器的半径-->
+        <attr name="indicatorWidth" format="integer"/> <!--指示器的宽-->
+        <attr name="indicatorHeight" format="integer"/><!--指示器的高-->
         <attr name="indicatorMargin" format="integer" />  <!--指示器的间隔-->
         <attr name="bottomMargin" format="integer" />  <!--指示器距离底部距离-->
         <attr name="indicatorMarginSide" format="integer"/> <!--当指示器位置为right或者left的时候 距离屏幕的边距-->

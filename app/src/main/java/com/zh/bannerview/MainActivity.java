@@ -44,7 +44,8 @@ public class MainActivity extends AppCompatActivity {
         mSuperBannerView.showIndicator(true);
         mSuperBannerView.setSuperModeMargin(12, 8,false);
         mSuperBannerView.setIndicatorAlign(SuperBannerView.IndicatorAlign.CENTER);
-        mSuperBannerView.setCircleIndicatorDrawable(R.drawable.indicator_normal, R.drawable.draw1);
+        mSuperBannerView.setCircleIndicatorDrawable(R.drawable.circle_banner_normal, R.drawable.circle_banner_selector);
+        mSuperBannerView.setmIndicatorInfo(10,2,20,10);
 
         mSuperBannerView.setViewData(bannerUrlList, new SuperHolder<String>() {
             @Override

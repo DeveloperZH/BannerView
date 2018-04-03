@@ -4,18 +4,15 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
-import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.DrawableRes;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
-import android.view.OrientationEventListener;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -55,7 +52,8 @@ public class SuperBannerView extends RelativeLayout {
     private boolean isOpenSuperMode;  //是否开启super模式  默认开启
     private float sideAlpha = 0.5f; //当开启super模式的时候  两边图片的透明度   默认0.5
     private IndicatorAlign mIndicatorAlign;  //指示器的位置
-    private int indicatorRadius;  //指示器的半径
+    //    private int indicatorRadius;  //指示器的半径
+    private int indicatorWidth, indicatorHeight; //指示器的宽高
     private int indicatorMargin;  //指示器的间隔
     private int indicatorMarginSide;  //当指示器位置为right或者left的时候 距离屏幕的边距
     private int bottomMargin;//指示器距离底部的间距
@@ -113,7 +111,9 @@ public class SuperBannerView extends RelativeLayout {
         openLoop = typedArray.getBoolean(R.styleable.SuperBannerView_openLoop, true);
         millisecond = typedArray.getInt(R.styleable.SuperBannerView_millisecond, LOOP_TIME);
         showIndicator = typedArray.getBoolean(R.styleable.SuperBannerView_showIndicator, true);
-        indicatorRadius = typedArray.getInt(R.styleable.SuperBannerView_indicatorRadius, 20);
+//        indicatorRadius = typedArray.getInt(R.styleable.SuperBannerView_indicatorRadius, 20);
+        indicatorWidth = typedArray.getInt(R.styleable.SuperBannerView_indicatorWidth, 20);
+        indicatorHeight = typedArray.getInt(R.styleable.SuperBannerView_indicatorHeight, 20);
         indicatorMargin = typedArray.getInt(R.styleable.SuperBannerView_indicatorMargin, 20);
         bottomMargin = typedArray.getInt(R.styleable.SuperBannerView_bottomMargin, 20);
         indicatorMarginSide = typedArray.getInt(R.styleable.SuperBannerView_indicatorMarginSide, 20);
@@ -210,7 +210,7 @@ public class SuperBannerView extends RelativeLayout {
             //                    indicatorViewList.clear();
             TextView view = new TextView(context);
             view.setBackgroundResource(circleNormalDrawable);
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(indicatorRadius, indicatorRadius);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(dpToPx(indicatorWidth), dpToPx(indicatorHeight));
             params.rightMargin = indicatorMargin;
             switch (mIndicatorAlign) {
                 case LEFT:
@@ -328,8 +328,10 @@ public class SuperBannerView extends RelativeLayout {
     /**
      * 设置圆形指示器的大小  间距  到底部距离
      */
-    public void setmIndicatorInfo(int radius, int margin, int bottomMargin) {
-        this.indicatorRadius = radius;
+    public void setmIndicatorInfo(int indicatorWidth, int indicatorHeight, int margin, int bottomMargin) {
+//        this.indicatorRadius = radius;
+        this.indicatorWidth = indicatorWidth;
+        this.indicatorHeight = indicatorHeight;
         this.indicatorMargin = margin;
         this.bottomMargin = bottomMargin;
     }
