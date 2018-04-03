@@ -211,7 +211,7 @@ public class SuperBannerView extends RelativeLayout {
             TextView view = new TextView(context);
             view.setBackgroundResource(circleNormalDrawable);
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(dpToPx(indicatorWidth), dpToPx(indicatorHeight));
-            params.rightMargin = indicatorMargin;
+            params.rightMargin = dpToPx(indicatorMargin);
             switch (mIndicatorAlign) {
                 case LEFT:
                     ll_container.setGravity(Gravity.LEFT);
@@ -328,7 +328,7 @@ public class SuperBannerView extends RelativeLayout {
     /**
      * 设置圆形指示器的大小  间距  到底部距离
      */
-    public void setmIndicatorInfo(int indicatorWidth, int indicatorHeight, int margin, int bottomMargin) {
+    public void setIndicatorInfo(int indicatorWidth, int indicatorHeight, int margin, int bottomMargin) {
 //        this.indicatorRadius = radius;
         this.indicatorWidth = indicatorWidth;
         this.indicatorHeight = indicatorHeight;
