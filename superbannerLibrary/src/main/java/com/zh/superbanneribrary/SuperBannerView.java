@@ -249,7 +249,7 @@ public class SuperBannerView extends RelativeLayout {
                 if (distanceX > distanceY) {
 //                    mLoopViewPager.setEnabled(true);
                     return true;
-                }else {
+                } else {
 //                    mLoopViewPager.setEnabled(false);
                     return false;
                 }
@@ -260,8 +260,6 @@ public class SuperBannerView extends RelativeLayout {
         }
         return false;
     }
-
-
 
 
     /**************************
@@ -279,14 +277,16 @@ public class SuperBannerView extends RelativeLayout {
      * @param sideMargin 开启super模式的时候  中间图片到屏幕两边的距离
      * @param pageMargin 开启super模式的时候  中间图片到两边两张图片的距离  可为负数
      */
-    public void setSuperModeMargin(int sideMargin, int pageMargin) {
+    public void setSuperModeMargin(int sideMargin, int pageMargin, boolean scaleY) {
         if (isOpenSuperMode) {
             RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) mLoopViewPager.getLayoutParams();
             lp.leftMargin = dpToPx(sideMargin);
             lp.rightMargin = dpToPx(sideMargin);
+            lp.bottomMargin = 0;
+            lp.topMargin = 0;
             mLoopViewPager.setLayoutParams(lp);
             mLoopViewPager.setPageMargin(dpToPx(pageMargin));
-            mLoopViewPager.setPageTransformer(true, new CoverModeTransformer(mLoopViewPager, sideAlpha));
+            mLoopViewPager.setPageTransformer(true, new CoverModeTransformer(mLoopViewPager, sideAlpha, scaleY));
         }
     }
 

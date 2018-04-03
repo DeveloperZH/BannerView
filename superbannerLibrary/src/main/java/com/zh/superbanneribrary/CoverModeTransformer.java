@@ -9,6 +9,7 @@ public class CoverModeTransformer implements ViewPager.PageTransformer {
     private final String TAG = CoverModeTransformer.class.getCanonicalName();
     private ViewPager mViewPager;
     private float MIN_ALPHA = 0.5f;
+    private boolean scaleY;//Y轴是否缩放
 
     public CoverModeTransformer(ViewPager pager, float MIN_ALPHA) {
         mViewPager = pager;
@@ -16,6 +17,17 @@ public class CoverModeTransformer implements ViewPager.PageTransformer {
         if (MIN_ALPHA < 0.5f) {
             MIN_ALPHA = 0.5f;
         }
+        scaleY = true;  //默认开启Y轴缩放
+        this.MIN_ALPHA = MIN_ALPHA;
+    }
+
+    public CoverModeTransformer(ViewPager pager, float MIN_ALPHA, boolean scaleY) {
+        mViewPager = pager;
+        //最小的透明度定为0.5  太小两边基本看不见
+        if (MIN_ALPHA < 0.5f) {
+            MIN_ALPHA = 0.5f;
+        }
+        this.scaleY = scaleY;
         this.MIN_ALPHA = MIN_ALPHA;
     }
 
@@ -36,7 +48,9 @@ public class CoverModeTransformer implements ViewPager.PageTransformer {
         if (currentPos <= -1.0f) {
             view.setTranslationX(reduceX);
             view.setScaleX(mScaleMin);
-            view.setScaleY(mScaleMin);
+            if (scaleY) {
+                view.setScaleY(mScaleMin);
+            }
             view.setAlpha(MIN_ALPHA);
         } else if (currentPos <= 1.0) {
             float scale = (mScaleMax - mScaleMin) * Math.abs(1.0f - Math.abs(currentPos));
@@ -51,13 +65,17 @@ public class CoverModeTransformer implements ViewPager.PageTransformer {
                 view.setTranslationX(translationX);
             }
             view.setScaleX(scale + mScaleMin);
-            view.setScaleY(scale + mScaleMin);
+            if (scaleY) {
+                view.setScaleY(scale + mScaleMin);
+            }
             float scaleFactor = Math.max(mScaleMin, 1 - Math.abs(position));
             view.setAlpha(MIN_ALPHA + (scaleFactor - mScaleMin) / (1 - mScaleMin) * (1 - MIN_ALPHA));
         } else {
             view.setAlpha(MIN_ALPHA);
             view.setScaleX(mScaleMin);
-            view.setScaleY(mScaleMin);
+            if (scaleY) {
+                view.setScaleY(mScaleMin);
+            }
             view.setTranslationX(-reduceX);
         }
     }

@@ -44,7 +44,7 @@ public class RefreshActivity extends AppCompatActivity {
 
         superBannerView.setOpenSuperMode(true);
         superBannerView.showIndicator(true);
-        superBannerView.setSuperModeMargin(30, 20);
+        superBannerView.setSuperModeMargin(30, 20,false);
         superBannerView.setIndicatorAlign(SuperBannerView.IndicatorAlign.CENTER);
         superBannerView.setCircleIndicatorDrawable(R.drawable.indicator_normal, R.drawable.draw1);
 

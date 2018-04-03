@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
 
         mSuperBannerView.setOpenSuperMode(true);
         mSuperBannerView.showIndicator(true);
-        mSuperBannerView.setSuperModeMargin(30, 20);
+        mSuperBannerView.setSuperModeMargin(12, 8,false);
         mSuperBannerView.setIndicatorAlign(SuperBannerView.IndicatorAlign.CENTER);
         mSuperBannerView.setCircleIndicatorDrawable(R.drawable.indicator_normal, R.drawable.draw1);
 
@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
 
         mSuperBannerView2.setOpenSuperMode(true);
         mSuperBannerView2.showIndicator(true);
-        mSuperBannerView2.setSuperModeMargin(30, -20);
+        mSuperBannerView2.setSuperModeMargin(30, -20,true);
         mSuperBannerView2.setViewData(bannerUrlList, new SuperHolder<String>() {
             @Override
             public View createView(Context context) {
