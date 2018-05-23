@@ -23,6 +23,7 @@ allprojects {
         jcenter()
     }
 
+
     tasks.withType(Javadoc) {
         options.addStringOption('Xdoclint:none', '-quiet') //忽略javadoc错误
         options{
@@ -32,7 +33,7 @@ allprojects {
         }
     }
 }
-
+tasks.getByPath(":superbannerLibrary:releaseAndroidJavadocs").enabled = false
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
