@@ -48,25 +48,25 @@ public class RefreshActivity extends AppCompatActivity {
         superBannerView.setIndicatorAlign(SuperBannerView.IndicatorAlign.CENTER);
         superBannerView.setCircleIndicatorDrawable(R.drawable.indicator_normal, R.drawable.draw1);
 
-        superBannerView.setViewData(bannerUrlList, new SuperHolder<String>() {
-            @Override
-            public View createView(Context context) {
-                View view = LayoutInflater.from(context).inflate(R.layout.vp_item, null);
-                iv_item = view.findViewById(R.id.iv_item);
-                return view;
-            }
-
-            @Override
-            public void onBind(final Context context, final int position, final String data) {
-                Glide.with(context).load(data).diskCacheStrategy(DiskCacheStrategy.ALL).into(iv_item);
-                iv_item.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Toast.makeText(context, "position = " + position + data, Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
-        });
+//        superBannerView.setViewData(bannerUrlList, new SuperHolder<String>() {
+//            @Override
+//            public View createView(Context context) {
+//                View view = LayoutInflater.from(context).inflate(R.layout.vp_item, null);
+//                iv_item = view.findViewById(R.id.iv_item);
+//                return view;
+//            }
+//
+//            @Override
+//            public void onBind(final Context context, final int position, final String data) {
+//                Glide.with(context).load(data).diskCacheStrategy(DiskCacheStrategy.ALL).into(iv_item);
+//                iv_item.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        Toast.makeText(context, "position = " + position + data, Toast.LENGTH_SHORT).show();
+//                    }
+//                });
+//            }
+//        });
 
     }
 }

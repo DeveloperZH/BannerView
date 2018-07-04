@@ -2,6 +2,7 @@ package com.zh.superbanneribrary;
 
 import android.content.Context;
 import android.view.View;
+import android.view.ViewGroup;
 
 /**
  * <p>公司名       tsingning</p>
@@ -15,16 +16,16 @@ import android.view.View;
  */
 public interface SuperHolder<T> {
     /**
-     *  创建View
+     * 创建View
      */
-    View createView(Context context);
+    View createView(ViewGroup parent);
 
     /**
      * 绑定数据
-     * @param context
+     *
      * @param position
      * @param data
      */
-    void onBind(Context context, int position, T data);
+    void onBind( View view, int position, T data);
 
 }

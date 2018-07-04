@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
-
 import java.util.List;
 
 /**
@@ -20,15 +19,14 @@ import java.util.List;
  */
 public class LoopPageAdapter<T> extends PagerAdapter {
 
-    private Context context;
     private List<T> viewDataList;
     private SuperHolder<T> mSuperHolder;
 
-    public LoopPageAdapter(Context context, List<T> viewDataList, SuperHolder<T> mSuperHolder) {
-        this.context = context;
+    public LoopPageAdapter(List<T> viewDataList, SuperHolder<T> mSuperHolder) {
         this.viewDataList = viewDataList;
         this.mSuperHolder = mSuperHolder;
     }
+
 
     @Override
     public int getCount() {
@@ -42,8 +40,8 @@ public class LoopPageAdapter<T> extends PagerAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
-        View view = mSuperHolder.createView(context);
-        mSuperHolder.onBind(context,position, viewDataList.get(position));
+        View view = mSuperHolder.createView(container);
+        mSuperHolder.onBind(view, position, viewDataList.get(position));
         container.addView(view);
         return view;
     }

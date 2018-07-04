@@ -14,23 +14,22 @@
 
     <com.zh.superbanneribrary.SuperBannerView
         android:id="@+id/mSuperBannerView1"
-        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
-        android:layout_height="150dp" />
+        android:layout_height="150dp"
+        android:layout_marginTop="10dp" />
 
     <com.zh.superbanneribrary.SuperBannerView
         android:id="@+id/mSuperBannerView2"
-        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
-        android:layout_height="150dp" />
+        android:layout_height="150dp"
+        android:layout_marginTop="10dp" />
 
     <TextView
-        android:visibility="gone"
-        android:background="@color/colorAccent"
         android:id="@+id/tv_go_refresh"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginTop="20dp"
+        android:background="@color/colorAccent"
+        android:gravity="center"
         android:text="GO_REFRESH"
-        android:gravity="center" />
+        android:visibility="visible" />
 </LinearLayout>

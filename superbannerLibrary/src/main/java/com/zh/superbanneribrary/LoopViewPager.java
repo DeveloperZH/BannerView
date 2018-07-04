@@ -20,7 +20,9 @@ import android.content.Context;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.SparseArray;
+import android.view.MotionEvent;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -85,6 +87,12 @@ public class LoopViewPager extends ViewPager {
         if (mAdapter != null) {
             mAdapter.setBoundaryCaching(flag);
         }
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        Log.i("dispatchTouchEvent","loopdispatchTouchEvent");
+        return super.dispatchTouchEvent(ev);
     }
 
     @Override

@@ -9,6 +9,7 @@ import android.os.Message;
 import android.support.annotation.DrawableRes;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -38,7 +39,6 @@ public class SuperBannerView extends RelativeLayout {
     private LinearLayout ll_container;
     private LoopViewPager mLoopViewPager;
     private RelativeLayout rl_parent;
-    private ViewGroup mViewGroup;
     float startX = 0, startY = 0;
     float endY;
     float endX;
@@ -62,8 +62,6 @@ public class SuperBannerView extends RelativeLayout {
     private boolean showIndicator;  //是否显示指示器  默认显示
     private boolean openLoop; //是否开启轮播
     private int millisecond;  //轮播时间
-
-    private List<TextView> indicatorViewList;
 
     public enum IndicatorAlign {
         LEFT,//左对齐
@@ -111,7 +109,6 @@ public class SuperBannerView extends RelativeLayout {
         openLoop = typedArray.getBoolean(R.styleable.SuperBannerView_openLoop, true);
         millisecond = typedArray.getInt(R.styleable.SuperBannerView_millisecond, LOOP_TIME);
         showIndicator = typedArray.getBoolean(R.styleable.SuperBannerView_showIndicator, true);
-//        indicatorRadius = typedArray.getInt(R.styleable.SuperBannerView_indicatorRadius, 20);
         indicatorWidth = typedArray.getInt(R.styleable.SuperBannerView_indicatorWidth, 20);
         indicatorHeight = typedArray.getInt(R.styleable.SuperBannerView_indicatorHeight, 20);
         indicatorMargin = typedArray.getInt(R.styleable.SuperBannerView_indicatorMargin, 20);
@@ -125,7 +122,6 @@ public class SuperBannerView extends RelativeLayout {
     //初始化V
     private void initView(Context context) {
         this.context = context;
-        indicatorViewList = new ArrayList<>();
         viewDataList = new ArrayList();
         View view;
         if (isOpenSuperMode) {
@@ -146,13 +142,11 @@ public class SuperBannerView extends RelativeLayout {
         mLoopViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                if (indicatorViewList != null && indicatorViewList.size() > 0) {
-                    for (int i = 0; i < indicatorViewList.size(); i++) {
-                        if (i == mLoopViewPager.getCurrentItem()) {
-                            indicatorViewList.get(i).setBackgroundResource(circleSelectDrawable);
-                        } else {
-                            indicatorViewList.get(i).setBackgroundResource(circleNormalDrawable);
-                        }
+                for (int i = 0; i < ll_container.getChildCount(); i++) {
+                    if (i == mLoopViewPager.getCurrentItem()) {
+                        ll_container.getChildAt(i).setBackgroundResource(circleSelectDrawable);
+                    } else {
+                        ll_container.getChildAt(i).setBackgroundResource(circleNormalDrawable);
                     }
                 }
             }
@@ -204,10 +198,10 @@ public class SuperBannerView extends RelativeLayout {
         //设置指示器距离底部间距
         RelativeLayout.LayoutParams layoutParams = (LayoutParams) ll_container.getLayoutParams();
         layoutParams.bottomMargin = dpToPx(bottomMargin);
-
-
+        if (ll_container.getChildCount() > 0) {
+            ll_container.removeAllViews();
+        }
         for (int i = 0; i < list.size(); i++) {
-            //                    indicatorViewList.clear();
             TextView view = new TextView(context);
             view.setBackgroundResource(circleNormalDrawable);
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(dpToPx(indicatorWidth), dpToPx(indicatorHeight));
@@ -227,7 +221,6 @@ public class SuperBannerView extends RelativeLayout {
             }
             ll_container.setLayoutParams(layoutParams);
             ll_container.addView(view, params);
-            indicatorViewList.add(view);
         }
     }
 
@@ -247,13 +240,10 @@ public class SuperBannerView extends RelativeLayout {
                 distanceY = Math.abs(endY - startY);
 //                // 如果X轴位移大于Y轴位移，那么将事件交给viewPager处理。
                 if (distanceX > distanceY) {
-//                    mLoopViewPager.setEnabled(true);
                     return true;
                 } else {
-//                    mLoopViewPager.setEnabled(false);
                     return false;
                 }
-//                break;
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
                 break;
@@ -261,6 +251,13 @@ public class SuperBannerView extends RelativeLayout {
         return false;
     }
 
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        stopLoop();
+        removeAllViews();
+    }
 
     /**************************
      * 暴露出去的方法
@@ -329,7 +326,6 @@ public class SuperBannerView extends RelativeLayout {
      * 设置圆形指示器的大小  间距  到底部距离
      */
     public void setIndicatorInfo(int indicatorWidth, int indicatorHeight, int margin, int bottomMargin) {
-//        this.indicatorRadius = radius;
         this.indicatorWidth = indicatorWidth;
         this.indicatorHeight = indicatorHeight;
         this.indicatorMargin = margin;
@@ -361,7 +357,7 @@ public class SuperBannerView extends RelativeLayout {
      * 开始轮播
      */
     public void startLoop() {
-        mHandler.removeMessages(LOOP_HANDLER);
+        stopLoop();
         mHandler.sendEmptyMessageDelayed(LOOP_HANDLER, millisecond);
     }
 
@@ -390,13 +386,9 @@ public class SuperBannerView extends RelativeLayout {
             throw new NullPointerException("viewDataList is NULL");
         }
         this.viewDataList = viewDataList;
-        mLoopViewPager.setAdapter(new LoopPageAdapter(context, viewDataList, superHolder));
-        if (showIndicator) {
-            initIndicator(viewDataList);
-        }
-        if (openLoop) {
-            startLoop();
-        }
+        mLoopViewPager.setAdapter(new LoopPageAdapter(viewDataList, superHolder));
+        if (showIndicator) initIndicator(viewDataList);
+        if (openLoop) startLoop();
     }
 
 
