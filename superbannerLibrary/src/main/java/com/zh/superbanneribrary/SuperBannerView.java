@@ -256,7 +256,6 @@ public class SuperBannerView extends RelativeLayout {
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         stopLoop();
-        removeAllViews();
     }
 
     /**************************
